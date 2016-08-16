@@ -1,27 +1,65 @@
 "use strict";
 
-// Initialize element references and game data
-
+/**
+ * Modal window for player to choose "X" or "O"
+ * @type {Element}
+ */
 let modal = document.getElementById("choose-modal");
+
+/**
+ * "X" button from the modal window
+ * @type {Element}
+ */
 let xBtn  = document.getElementsByClassName("btn-x")[0];
+
+/**
+ * "O" button from the modal window
+ * @type {Element}
+ */
 let oBtn  = document.getElementsByClassName("btn-o")[0];
 
+/**
+ * Player's value ("X" or "O")
+ * @type {String}
+ */
 let player = "";
+
+/**
+ * Enemy's value ("X" or "O")
+ * @type {String}
+ */
 let enemy  = "";
 
+/**
+ * The HTML element references of each cell in the board
+ * @type {Array}
+ */
 let cells = document.getElementsByClassName("cell");
+
+/**
+ * 2D representation of the board containing values "", "X", or "O"
+ * @type {Array}
+ */
 let board = [
     ["", "", ""],
     ["", "", ""],
     ["", "", ""],
 ];
 
+/**
+ * [playersTurn description]
+ * @type {Boolean}
+ */
 let playersTurn = false;
 
-// SHOW MODAL WINDOW AND HANDLE X/O CHOICE
-
+/**
+ * Firstly show the modal window
+ */
 modal.style.display = "block";
 
+/**
+ * Click handler if player is "X"
+ */
 xBtn.onclick = () => {
     modal.style.display = "none";
     player = "X";
@@ -29,6 +67,9 @@ xBtn.onclick = () => {
     initializeGame();
 };
 
+/**
+ * Click handler if player is "O"
+ */
 oBtn.onclick = () => {
     modal.style.display = "none";
     player = "O";
@@ -58,8 +99,6 @@ function initializeGame() {
     }
 }
 
-// START PLAYING THE GAME
-
 /**
  * Assign a value to a cell of certain row and column (2D)
  * 
@@ -86,6 +125,12 @@ function switchTurn() {
     playersTurn = !playersTurn;
 }
 
+/**
+ * Get the cell's index (1D or 2D) from cells[] array
+ * @param  {Element} el                 The cell HTML element (a.cell)
+ * @param  {Boolean} getTwoDimIndex     true: get its 2D index, false: 1D
+ * @return {Array or Number}            The 1D/2D index
+ */
 function getCellIndex(el, getTwoDimIndex) {
     let notFound = (getTwoDimIndex) ? [-1, -1] : -1;
 
@@ -97,10 +142,21 @@ function getCellIndex(el, getTwoDimIndex) {
     return notFound;
 }
 
+/**
+ * Convert a 1D index to its 2D version (for board[][])
+ * @param  {Number} oneDimIndex     1D index (0..8 or 9-1)
+ * @return {Array}                  2D index, i.e. [i-th row, j-th column]
+ */
 function convertToTwoDimIndex(oneDimIndex) {
     return [Math.floor(oneDimIndex / 3), oneDimIndex % 3];
 }
 
+/**
+ * Convert a 2D index to its 1D version (for cells[])
+ * @param  {Number} i i-th row
+ * @param  {Number} j j-th column
+ * @return {Number}   the 1D index
+ */
 function convertToOneDimIndex(i, j) {
     return i * 3 + j;
 }
@@ -128,7 +184,7 @@ function hideWin(i, j, playerWins) {
 }
 
 /**
- * Show that the game is tie/draw, by highlighting all cells
+ * Show that the game is tie/draw, by highlighting all cells with .draw
  */
 function showDraw() {
     for (let i = 0; i < cells.length; i++) {
@@ -136,6 +192,9 @@ function showDraw() {
     }
 }
 
+/**
+ * Remove the highlights from all cells which assigned the class .draw
+ */
 function hideDraw() {
     for (let i = 0; i < cells.length; i++) {
         cells[i].classList.remove("draw");
@@ -294,6 +353,10 @@ function checkEndgame() {
     return false;
 }
 
+/**
+ * Check whether the game is draw
+ * @return {Boolean} true: the game is draw, false otherwise
+ */
 function isDraw() {
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
