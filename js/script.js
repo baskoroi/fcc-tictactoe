@@ -203,12 +203,13 @@ function hideDraw() {
 
 /**
  * To check whether an endgame (win/loss/draw) has been reached
+ * @param {Array}   board           2D array of board (current/simulated)
  * @param {Boolean} animateCells    true: highlight the won/draw cells
  * @param {Boolean} checkPlayerWin  true: returns true/false based on user's win
  * @return {Boolean}                if endgame is reached, or else based on the
  *                                  conditions above
  */
-function isEndgame(animateCells, checkPlayerWin) {
+function checkEndgame(board, animateCells, checkPlayerWin) {
     // check for win horizontally
     for (let i = 0; i < board.length; i++) {
         if (board[i][0] === player && 
@@ -427,7 +428,7 @@ function handlePlayerClick(event) {
         assignCell(i, j, player);
 
         // check whether an endgame has been reached
-        if (isEndgame(true, false)) {
+        if (checkEndgame(board, true, false)) {
             window.setTimeout(resetGame, 2000);
             return true;
         }
@@ -442,7 +443,7 @@ function handlePlayerClick(event) {
         switchTurn();
 
         // check whether an endgame has been reached
-        if (isEndgame(true, false)) {
+        if (checkEndgame(board, true, false)) {
             window.setTimeout(resetGame, 2000);
             return true;
         }
@@ -453,14 +454,7 @@ function handlePlayerClick(event) {
  * Enemy's turn to assign an empty cell
  */
 function assignEnemyCell() {
-    /*let i, j;*/
-
-    /*// pick an empty cell randomly
-    do {
-        i = Math.floor(Math.random() * 3);
-        j = Math.floor(Math.random() * 3);
-    } while(board[i][j] !== "");*/
-
+    
     /**
      * The desired move for the enemy/AI 
      * (also used to simulate player's moves in the minimax algorithm)
@@ -472,10 +466,10 @@ function assignEnemyCell() {
      * Scoring function for minimax algorithm
      * @return {Number}     The score
      */
-    let score = (depth) => {
+    let score = (board, depth) => {
         // stores boolean value of whether an endgame has been reached
-        let isFinalGame = isEndgame(false, false);
-        let playerWins = isEndgame(false, true);
+        let isFinalGame = checkEndgame(board, false, false);
+        let playerWins = checkEndgame(board, false, true);
 
         // if endgame has been reached
         if (isFinalGame) {
@@ -514,7 +508,7 @@ function assignEnemyCell() {
      * @return {Number}         The desired score
      */
     let minimax = (board, depth, enemyTurn) => {
-        if (isEndgame(false, false)) return score(depth);
+        if (checkEndgame(board, false, false)) return score(board, depth);
 
         depth += 1;
         let scores = [];
@@ -532,7 +526,7 @@ function assignEnemyCell() {
             moves.push(move);
         });
 
-        if (enemyTurn) {
+        if (!enemyTurn) {
             let maxScore = Math.max(...scores);
             let maxScoreIndex = scores.indexOf(maxScore);
 
@@ -550,7 +544,7 @@ function assignEnemyCell() {
     }
 
     // assign that cell enemy's value
-    minimax(board, 0, true);
+    minimax(_.cloneDeep(board), 0, true);
     let [i, j] = choice;
     assignCell(i, j, enemy);
 }
