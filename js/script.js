@@ -202,25 +202,31 @@ function hideDraw() {
 }
 
 /**
- * To know whether an endgame (win/loss/draw) has been reached
- * @return {Boolean}    true if endgame is reached, false otherwise
+ * To check whether an endgame (win/loss/draw) has been reached
+ * @param {Boolean} animateCells    true: highlight the won/draw cells
+ * @param {Boolean} checkPlayerWin  true: returns true/false based on user's win
+ * @return {Boolean}                if endgame is reached, or else based on the
+ *                                  conditions above
  */
-function checkEndgame() {
+function isEndgame(animateCells, checkPlayerWin) {
     // check for win horizontally
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < board.length; i++) {
         if (board[i][0] === player && 
             board[i][1] === player && 
             board[i][2] === player) {
             
             /*alert("Player wins!");*/
-            showWin(i, 0, true);
-            showWin(i, 1, true);
-            showWin(i, 2, true);
-            window.setTimeout(() => {
-                hideWin(i, 0, true);
-                hideWin(i, 1, true);
-                hideWin(i, 2, true);
-            }, 2000);
+            if (animateCells) {
+                showWin(i, 0, true);
+                showWin(i, 1, true);
+                showWin(i, 2, true);
+                window.setTimeout(() => {
+                    hideWin(i, 0, true);
+                    hideWin(i, 1, true);
+                    hideWin(i, 2, true);
+                }, 2000);
+            }
+
             return true;
         }
         if (board[i][0] === enemy && 
@@ -228,33 +234,39 @@ function checkEndgame() {
             board[i][2] === enemy) {
 
             /*alert("Enemy wins!");*/
-            showWin(i, 0, false);
-            showWin(i, 1, false);
-            showWin(i, 2, false);
-            window.setTimeout(() => {
-                hideWin(i, 0, false);
-                hideWin(i, 1, false);
-                hideWin(i, 2, false);
-            }, 2000);
-            return true;
+            if (animateCells) {
+                showWin(i, 0, false);
+                showWin(i, 1, false);
+                showWin(i, 2, false);
+                window.setTimeout(() => {
+                    hideWin(i, 0, false);
+                    hideWin(i, 1, false);
+                    hideWin(i, 2, false);
+                }, 2000);
+            }
+
+            return (checkPlayerWin) ? false : true;
         }
     }
 
     // check for win vertically
-    for (let j = 0; j < 3; j++) {
+    for (let j = 0; j < board.length; j++) {
         if (board[0][j] === player &&
             board[1][j] === player &&
             board[2][j] === player) {
 
             /*alert("Player wins!");*/
-            showWin(0, j, true);
-            showWin(1, j, true);
-            showWin(2, j, true);
-            window.setTimeout(() => {
-                hideWin(0, j, true);
-                hideWin(1, j, true);
-                hideWin(2, j, true);
-            }, 2000);
+            if (animateCells) {
+                showWin(0, j, true);
+                showWin(1, j, true);
+                showWin(2, j, true);
+                window.setTimeout(() => {
+                    hideWin(0, j, true);
+                    hideWin(1, j, true);
+                    hideWin(2, j, true);
+                }, 2000);
+            }
+
             return true;
         }
 
@@ -263,15 +275,18 @@ function checkEndgame() {
             board[2][j] === enemy) {
 
             /*alert("Enemy wins!");*/
-            showWin(0, j, false);
-            showWin(1, j, false);
-            showWin(2, j, false);
-            window.setTimeout(() => {
-                hideWin(0, j, false);
-                hideWin(1, j, false);
-                hideWin(2, j, false);
-            }, 2000);
-            return true;
+            if (animateCells) {
+                showWin(0, j, false);
+                showWin(1, j, false);
+                showWin(2, j, false);
+                window.setTimeout(() => {
+                    hideWin(0, j, false);
+                    hideWin(1, j, false);
+                    hideWin(2, j, false);
+                }, 2000);
+            }
+
+            return (checkPlayerWin) ? false : true;
         }
     }
 
@@ -281,14 +296,17 @@ function checkEndgame() {
         board[2][2] === player) {
 
         /*alert("Player wins!");*/
-        showWin(0, 0, true);
-        showWin(1, 1, true);
-        showWin(2, 2, true);
-        window.setTimeout(() => {
-            hideWin(0, 0, true);
-            hideWin(1, 1, true);
-            hideWin(2, 2, true);
-        }, 2000);
+        if (animateCells) {
+            showWin(0, 0, true);
+            showWin(1, 1, true);
+            showWin(2, 2, true);
+            window.setTimeout(() => {
+                hideWin(0, 0, true);
+                hideWin(1, 1, true);
+                hideWin(2, 2, true);
+            }, 2000);
+        }
+
         return true;
     }
 
@@ -297,15 +315,18 @@ function checkEndgame() {
         board[2][2] === enemy) {
 
         /*alert("Enemy wins!");*/
-        showWin(0, 0, false);
-        showWin(1, 1, false);
-        showWin(2, 2, false);
-        window.setTimeout(() => {
-            hideWin(0, 0, false);
-            hideWin(1, 1, false);
-            hideWin(2, 2, false);
-        }, 2000);
-        return true;
+        if (animateCells) {
+            showWin(0, 0, false);
+            showWin(1, 1, false);
+            showWin(2, 2, false);
+            window.setTimeout(() => {
+                hideWin(0, 0, false);
+                hideWin(1, 1, false);
+                hideWin(2, 2, false);
+            }, 2000);
+        }
+
+        return (checkPlayerWin) ? false : true;
     }   
 
     // check for win diagonally (right-top to left-bottom)
@@ -314,14 +335,17 @@ function checkEndgame() {
         board[2][0] === player) {
 
         /*alert("Player wins!");*/
-        showWin(0, 2, true);
-        showWin(1, 1, true);
-        showWin(2, 0, true);
-        window.setTimeout(() => {
-            hideWin(0, 2, true);
-            hideWin(1, 1, true);
-            hideWin(2, 0, true);
-        }, 2000);
+        if (animateCells) {
+            showWin(0, 2, true);
+            showWin(1, 1, true);
+            showWin(2, 0, true);
+            window.setTimeout(() => {
+                hideWin(0, 2, true);
+                hideWin(1, 1, true);
+                hideWin(2, 0, true);
+            }, 2000);
+        }
+
         return true;
     }
 
@@ -330,23 +354,28 @@ function checkEndgame() {
         board[2][0] === enemy) {
 
         /*alert("Enemy wins!");*/
-        showWin(0, 2, false);
-        showWin(1, 1, false);
-        showWin(2, 0, false);
-        window.setTimeout(() => {
-            hideWin(0, 2, false);
-            hideWin(1, 1, false);
-            hideWin(2, 0, false);
-        }, 2000);
-        return true;
+        if (animateCells) {
+            showWin(0, 2, false);
+            showWin(1, 1, false);
+            showWin(2, 0, false);
+            window.setTimeout(() => {
+                hideWin(0, 2, false);
+                hideWin(1, 1, false);
+                hideWin(2, 0, false);
+            }, 2000);
+        }
+
+        return (checkPlayerWin) ? false : true;
     }
 
     // check for draw
     if (isDraw()) {
-        showDraw();
-        window.setTimeout(hideDraw, 2000);
+        if (animateCells) {
+            showDraw();
+            window.setTimeout(hideDraw, 2000);
+        }
 
-        return true;
+        return (checkPlayerWin) ? false : true;
     }
 
     // continue game if none of the conditions above are met
@@ -358,8 +387,8 @@ function checkEndgame() {
  * @return {Boolean} true: the game is draw, false otherwise
  */
 function isDraw() {
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board.length; j++) {
             if (board[i][j] === "") return false;
         }
     }
@@ -372,8 +401,8 @@ function isDraw() {
  */
 function resetGame() {
     // remove all values from board[][]
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board.length; j++) {
             board[i][j] = "";
         }
     }
@@ -398,7 +427,7 @@ function handlePlayerClick(event) {
         assignCell(i, j, player);
 
         // check whether an endgame has been reached
-        if (checkEndgame()) {
+        if (isEndgame(true, false)) {
             window.setTimeout(resetGame, 2000);
             return true;
         }
@@ -413,7 +442,7 @@ function handlePlayerClick(event) {
         switchTurn();
 
         // check whether an endgame has been reached
-        if (checkEndgame()) {
+        if (isEndgame(true, false)) {
             window.setTimeout(resetGame, 2000);
             return true;
         }
@@ -422,17 +451,106 @@ function handlePlayerClick(event) {
 
 /**
  * Enemy's turn to assign an empty cell
- * @return {[type]} [description]
  */
 function assignEnemyCell() {
-    let i, j;
+    /*let i, j;*/
 
-    // pick an empty cell randomly
+    /*// pick an empty cell randomly
     do {
         i = Math.floor(Math.random() * 3);
         j = Math.floor(Math.random() * 3);
-    } while(board[i][j] !== "");
+    } while(board[i][j] !== "");*/
+
+    /**
+     * The desired move for the enemy/AI 
+     * (also used to simulate player's moves in the minimax algorithm)
+     * @type {Array}    [i-th row, j-th column]
+     */
+    let choice = [-1, -1];
+
+    /**
+     * Scoring function for minimax algorithm
+     * @return {Number}     The score
+     */
+    let score = (depth) => {
+        // stores boolean value of whether an endgame has been reached
+        let isFinalGame = isEndgame(false, false);
+        let playerWins = isEndgame(false, true);
+
+        // if endgame has been reached
+        if (isFinalGame) {
+            if (playerWins) { // player wins
+                return 10 - depth;
+            } else if (!playerWins) { // enemy wins
+                return depth - 10;
+            }
+        }
+
+        // if game hasn't ended
+        return 0;
+    }
+
+    /**
+     * Get available moves from a given board state
+     * @param  {Array} board    Current/temporary board state
+     * @return {Array}          List of available moves
+     */
+    let getAvaiableMoves = (board) => {
+        let moves = [];
+
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board.length; j++) {
+                if (board[i][j] === "") moves.push([i, j]);
+            }
+        }
+
+        return moves;
+    }
+
+    /**
+     * Get the score for the most strategic move by the enemy/AI
+     * @param  {Array} board    Current board state
+     * @param  {Number} depth   n-th step from the starting position
+     * @return {Number}         The desired score
+     */
+    let minimax = (board, depth, enemyTurn) => {
+        if (isEndgame(false, false)) return score(depth);
+
+        depth += 1;
+        let scores = [];
+        let moves = [];
+
+        let avaiableMoves = getAvaiableMoves(board);
+        avaiableMoves.map((move) => {
+            // assign tempBoard a possible move
+            let [i, j] = move;
+            let tempBoard = _.cloneDeep(board);
+            tempBoard[i][j] = (enemyTurn) ? enemy : player;
+
+            // assign tempBoard to append scores[] and moves[]
+            scores.push(minimax(tempBoard, depth, !enemyTurn));
+            moves.push(move);
+        });
+
+        if (enemyTurn) {
+            let maxScore = Math.max(...scores);
+            let maxScoreIndex = scores.indexOf(maxScore);
+
+            choice = moves[maxScoreIndex];
+
+            return maxScore;
+        } else {
+            let minScore = Math.min(...scores);
+            let minScoreIndex = scores.indexOf(minScore);
+
+            choice = moves[minScoreIndex];
+
+            return minScore;
+        }
+    }
 
     // assign that cell enemy's value
+    minimax(board, 0, true);
+    let [i, j] = choice;
     assignCell(i, j, enemy);
 }
