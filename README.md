@@ -8,7 +8,8 @@ This is a Tic-Tac-Toe project from FreeCodeCamp's Advanced Front-end Development
 
 ## Todo
 
-I'm adding the minimax algortihm for the opponent to assign the most strategic cell in the board.
+**EDIT:** The minimax algorithm has been added. But when I'll reorganize my projects, I will try to increase its difficulty.
+~~I'm adding the minimax algortihm for the opponent to assign the most strategic cell in the board.~~
 
 In the near future, after I'll complete all of the remaining courses in FreeCodeCamp, 
 
