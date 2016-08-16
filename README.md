@@ -3,9 +3,13 @@
 By: Baskoro Indrayana
 
 ## Description
+
 This is a Tic-Tac-Toe project from FreeCodeCamp's Advanced Front-end Development Projects.
 
 ## Todo
+
+I'm adding the minimax algortihm for the opponent to assign the most strategic cell in the board.
+
 In the near future, after I'll complete all of the remaining courses in FreeCodeCamp, 
 
 - I plan to modify all of these FCC projects (some may remain in vanilla JS, some may be rewritten in Angular 2 / React) and push each of them in GitHub.
