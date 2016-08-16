@@ -42,7 +42,7 @@ body, body * {
 	background-color: #FEFEFE;
 	margin: 15% auto;
 	border: 1px solid #888888;
-	width: 70%;
+	width: 400px;
 	text-align: center;
 	overflow: hidden;
 }
@@ -60,7 +60,6 @@ body, body * {
 .modal-content footer {
 	padding: 4px 0;
 }
-
 
 .modal-content .buttons {
 	width: 112px;
@@ -110,6 +109,18 @@ body, body * {
 	border-bottom: 2px solid #000000;
 }
 
+.player-win {
+	background-color: #2ECC71;
+}
+
+.enemy-win {
+	background-color: #E74C3C;
+}
+
+.draw {
+	background-color: #CCCCCC;
+}
+
 /* 3, 6, 9 */
 .cell:nth-child(3n+3) {
 	border-right: 0;
@@ -120,7 +131,7 @@ body, body * {
 }
 
 .cell:hover {
-	background-color: #DFDFDF;
+	/* background-color: #DFDFDF; */
 	cursor: pointer;
 }
 
